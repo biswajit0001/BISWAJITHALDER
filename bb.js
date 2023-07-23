@@ -1,1 +1,1 @@
-alert("new update is coming);
+alert("new update is coming");
