@@ -1,0 +1,38 @@
+#Image_btn,#video_btn{
+    padding: 8px 50px 8px 50px;
+    background:none ;
+    margin: 0 auto 0 auto;
+    font-size:18px ;
+    border-color: red;
+    border-style:solid ;
+    margin:2px ;
+    border-radius:30px ;
+    color: #ff005e;
+    transition:0.5s ;
+    
+}
+#Image_btn:hover,#video_btn:hover,Image_btn:active,video_btn:active{
+    box-shadow:inset -1px -1px 8px #ff005e,inset 1px 1px 8px #ff005e, -1px -1px 8px #ff005e, 1px 1px 8px #ff005e;
+   
+   text-shadow:1px 1px 6px #ff005e,-1px -1px 6px #ff005e ;
+   
+    border-color: #fff ;
+    color: #fff;
+    transition: 0.5;
+}
+#Image_btn {
+    position: fixed ;
+    bottom:3px ;
+    right: 50px;
+    
+}
+#video_btn{
+    position: fixed;
+    bottom:3px ;
+    left: 30px ;
+    
+    
+}
+#Image_div{
+    display:none ;
+}

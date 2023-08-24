@@ -1,0 +1,109 @@
+.fbdiv{
+    width: 90%;
+    border-bottom-style:solid;
+    border-bottom-color: #747474;
+    border-bottom-width:2px ;
+    margin:0 auto 40px auto;
+    padding:0px ;
+       
+}
+.fblogo,.fblogo1,.fblogo2,.fblogo3 {
+    font-size: 20px;
+    display: inline-block;
+    width:100% ; 
+    text-align: center;
+    padding: 10px ;
+    box-shadow: 4px 4px 9px #0081ff;
+    color: white;
+    
+}
+.fblogo2{
+    background:lightblue;
+    color:;
+}
+.fblogo1{
+    background: #2ad5ff;
+}
+.fblogo{
+    background: #2ac0ff;
+}  
+/*animation*/
+@keyframes eix {
+0%{margin-top: -100px ;}
+100%{}
+}
+@keyframes eix1 {
+    0%{transform:translateX(-900px) ;}
+    100%{}
+}
+@keyframes eix2 {
+ 0%{ color: #1100ff; opacity:1 ;}
+ 50%{color: #ff00c7;}   
+ 100%{color: #1100ff; opacity:1 ;}
+}
+@keyframes eix3 {
+  0%{}  
+  25%{margin-right: 30px;}
+  50%{}
+  75%{margin-left: 30px;}
+  100%{}
+}
+/*animation*/
+.fbdiv{
+  animation-name: eix;
+  animation-duration: 1s;
+  animation-timing-function: linear; 
+  animation-direction: forward;
+     animation-iteration-count: 1;            
+}
+form {
+    text-align: center;
+    margin-top: 50px;
+    animation-name: eix1;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-direction: forward;
+     animation-iteration-count: 1;     
+}
+ #h3ma{
+ 
+    margin-bottom: 30px ;   
+    animation-name: eix3;
+    animation-delay: 2s;
+    transition: 1s;
+    
+    
+}
+#fdcon,#fecon{
+    background:lightblue ;
+    height: 30px;
+    margin-bottom: 20px;
+    padding: 20px;
+    box-shadow: inset 4px 4px 9px #232323d3;
+}
+#fdcon:hover,#fecon:hover{
+    animation-name: eix2;
+    font-size: 15px;  
+}
+.fbcon{
+    width: 130px;
+    margin: 20px 50px 60px 50px;
+    background-color:#c595ff ;
+    padding: 8px 15px 8px 15px ;
+    border-bottom-right-radius:30px ;  
+    border-top-left-radius:30px ;
+    border-style:solid ;
+    box-shadow:inset 3px 3px 9px #ffffff83,inset -3px -3px 9px #75698c;
+    transition:0.5s ;    
+}
+.fbcon:hover,.fbcon:active{
+    box-shadow:inset 4px 4px 9px #232323d3;
+    margin-top:20px ;   
+    animation-name: eix2;     
+}
+.fbcon:hover,.fbcon:active,#fdcon:hover,#fecon:hover,h3{
+    animation-duration: 3s;
+  animation-timing-function: linear; 
+  animation-direction: forward;
+     animation-iteration-count: infinite;
+}
