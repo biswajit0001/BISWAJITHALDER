@@ -1,0 +1,17 @@
+.h_p_i {
+    display: block;
+    margin: auto;
+    width: 90% ;
+}
+h2{
+    text-align: center ;
+    color:#ffffff ;
+    background: #000000;
+    
+}
+p{
+    font-size: 18px ;
+    margin: auto 15px auto 15px ;
+    text-align:  ;
+    font-weight: bold;
+}
