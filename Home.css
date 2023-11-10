@@ -1,0 +1,136 @@
+@media (max-width: 952px){
+    #hac {margin: 300px;}
+ #HA,#AA,#CA{}
+    .tat{font-size: 30px;}#obtionber,#obtionber1{font-size: 40px;}
+}
+@media (min-width: 952px){
+   .tat{font-size: 35px;}#obtionber,#obtionber1{font-size: 45px;}
+}
+@keyframes kjk {
+    0%{transform: translateX(-300px);}
+    100%{ }
+}
+@keyframes kjk1 {
+    
+    0%{transform: translateX(0);}
+    100%{0}
+}
+@keyframes sssa{
+    0%{transform: translateY(3000px);}
+    100%{}
+}
+@keyframes sssb{
+    0%{transform: translateX(-300px);}
+    100%{}
+}
+body{
+    margin: ;
+}
+
+#titlediv {
+       margin: 0 ;
+       padding:10px 5px 0 5px;
+       background: linear-gradient(135deg,#ffffff,#ffffff,#95e0ffb4);
+        }
+       #obtionber,#obtionber1{
+           color: blue;
+           text-shadow:1px 1px 6px red;
+            
+           display: inline-block;
+           transform:translateY(-10px) ;
+           float: right;
+           height:30px ;
+           margin:0 ;
+           background: ;
+           
+       }
+       #obtionber1{
+           display: none;
+       }
+       .tat{
+ 
+         color:transparent;
+         
+         font-weight:bolder ;
+         background: linear-gradient(120deg,red,blue);
+         background-clip:text;
+         -webkit-background-clip:text;
+         
+   } 
+      #oppo{
+          animation-name:kjk ;
+    animation-duration:1s ;
+    
+      }
+      #oppo1{
+          animation-name:kjk1 ;
+    animation-duration:1s ;
+    transform: translateX(-300px);
+    
+      }   
+#oppo,#oppo1 {
+    padding-top:20px ;
+    width: 200px;
+    position:fixed ;
+    top:0 ;
+    left:0 ;
+    bottom:0 ;
+    backdrop-filter:blur(15px);
+    text-align:center ;
+    border-right-style:solid ;
+    border-right-color:white;
+    display:none ;
+    background: linear-gradient(120deg,#ff5f5594,#80d6ff94);
+    box-shadow:  2px 2px 16px black ;
+    
+}
+.alink,.alink1{ 
+    color:#000000 ;
+    text-decoration:none ;
+    font-size: 20px;
+    padding: 4px;
+    display: block;
+    margin-top:4px ;
+    font-weight: bold;
+    width:80% ; 
+    margin: auto;
+}
+.alink1{
+  text-shadow: 1px 1px 2px #000000 ;
+  color: white ;
+  }
+.home_h {
+    width: 90% ;
+    margin: 10px auto 10px auto;
+     #ff80dd;
+    border-style: solid;
+    border-color: #2d2d2d;
+    animation-name: sssa;
+    animation-duration:1s ;
+    
+    
+    
+    
+}
+.home_h p{ 
+color: #000000;
+font-size: 20px ;
+text-align: center ;
+margin: -50px  0 0 0;
+font-weight:bold ;
+backdrop-filter:blur(9px);
+padding:6px 0 20px 0;
+border-top-style:solid;
+border-top-color: #ffffff;
+background: linear-gradient(90deg,#ffffff,#d5fff49e,#6affe0b5,#95f5ffad)
+
+
+
+}
+.home_h a {
+    text-decoration: none;
+}
+.home_h img {
+    filter: brightness(80%);
+    
+}
