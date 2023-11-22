@@ -32,21 +32,7 @@ body{
        padding:10px 5px 0 5px;
        background: linear-gradient(135deg,#ffffff,#ffffff,#95e0ffb4);
         }
-       #obtionber,#obtionber1{
-           color: blue;
-           text-shadow:1px 1px 6px red;
-            
-           display: inline-block;
-           transform:translateY(-10px) ;
-           float: right;
-           height:30px ;
-           margin:0 ;
-           background: ;
-           
-       }
-       #obtionber1{
-           display: none;
-       }
+       
        .tat{
  
          color:transparent;
@@ -56,48 +42,8 @@ body{
          background-clip:text;
          -webkit-background-clip:text;
          
-   } 
-      #oppo{
-          animation-name:kjk ;
-    animation-duration:1s ;
     
-      }
-      #oppo1{
-          animation-name:kjk1 ;
-    animation-duration:1s ;
-    transform: translateX(-300px);
-    
-      }   
-#oppo,#oppo1 {
-    padding-top:20px ;
-    width: 200px;
-    position:fixed ;
-    top:0 ;
-    left:0 ;
-    bottom:0 ;
-    backdrop-filter:blur(15px);
-    text-align:center ;
-    border-right-style:solid ;
-    border-right-color:white;
-    display:none ;
-    background: linear-gradient(120deg,#ff5f5594,#80d6ff94);
-    box-shadow:  2px 2px 16px black ;
-    
-}
-.alink,.alink1{ 
-    color:#000000 ;
-    text-decoration:none ;
-    font-size: 20px;
-    padding: 4px;
-    display: block;
-    margin-top:4px ;
-    font-weight: bold;
-    width:80% ; 
-    margin: auto;
-}
-.alink1{
-  text-shadow: 1px 1px 2px #000000 ;
-  color: white ;
+      
   }
 .home_h {
     width: 90% ;
