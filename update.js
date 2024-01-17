@@ -1,4 +1,4 @@
-function upon(){   document.getElementById("update2").style.display="flex";
+function upon(){   document.getElementById("update2").style.display="none";
 
 
 
