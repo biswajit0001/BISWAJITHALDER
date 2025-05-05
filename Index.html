@@ -1,21 +1,378 @@
 <!DOCTYPE html>
 <html lang="en">
-    
-<head> 
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3486011634040058"
-     crossorigin="anonymous"></script>
-    <meta name="description" content="winxx a2 video stream and download free,most trusted app by Google winxx a2, winxx a2 apk ,winxx a2 app download page,B STUDY,B STUDYapp'B STUDYappdownload ">
-    <meta name="google-adsense-account" content="ca-pub-3486011634040058">
-    
-   <meta http-equiv="refresh" content="0; url=25paragraph.html"/> 
-    <meta name="keywords" content="Winxx a2 app,winxx a2 apk,winxx a2, winxx a2 download, winxx a2 video download app , winxx a2 video downloadapk, winxx app ,winxx apk ,">
-    <meta charset="UTF-8">
-    <meta name="viwport" content="width=device-width, initial-scale=1.0"> 
-  <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
-    <title> Winxx A2 </title>
-    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Spin Game UI</title>
+  <style>
+      
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f7f9fc;
+      color: #333;
+    }
+    .blurred {
+      filter: blur(5px);
+      pointer-events: none;
+      user-select: none;
+    }
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 99;
+    }
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    .user-box {
+      text-align: center;
+      cursor: pointer;
+    }
+    .user-box img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+    }
+    .user-detail {
+      display: none;
+      position: absolute;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 12px;
+      top: 70px;
+      right: 30px;
+      width: 250px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+      font-size: 14px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .user-detail img {
+      width: 60px;
+      border-radius: 50%;
+      display: block;
+      margin: 0 auto 10px;
+    }
+    .user-detail div {
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .user-detail button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 6px 16px;
+      font-size: 13px;
+      border-radius: 20px;
+      cursor: pointer;
+      margin-top: 5px;
+      transition: background 0.3s ease;
+    }
+    .user-detail button:hover {
+      background-color: #0056b3;
+    }
+    .carousel {
+      display: flex;
+      overflow: hidden;
+      background: #e0e0e0;
+      height: 100px;
+      position: relative;
+    }
+    .carousel::before,
+    .carousel::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 50px;
+      background: linear-gradient(to right, #f7f9fc, transparent);
+      z-index: 1;
+    }
+    .carousel::after {
+      right: 0;
+      transform: rotate(180deg);
+    }
+    .carousel-track {
+      display: flex;
+      animation: slideRightToLeft 20s linear infinite;
+    }
+    .carousel img {
+      width: 160px;
+      height: 100px;
+      margin-right: 10px;
+      object-fit: cover;
+    }
+    @keyframes slideRightToLeft {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    .spinner-section {
+      text-align: center;
+      padding: 30px 10px;
+    }
+    .spinner {
+      width: 200px;
+      height: 200px;
+      border: 12px solid #e0e0e0;
+      border-top-color: #4CAF50;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      position: relative;
+      transition: transform 3s ease-out;
+    }
+    .spinner-number {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 32px;
+      font-weight: bold;
+      color: #4CAF50;
+    }
+    .spin-btn {
+      padding: 10px 30px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .spin-btn:hover {
+      background-color: #45a049;
+    }
+    .center-info {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+    }
+    .popup {
+      color:#00c403;
+      display: none;
+      position: fixed;
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 100;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      width: 300px;
+      text-align: center;
+      font-size: 15px;
+      font-weight: bolder;
+    }
+    .popup .red-text {
+      color: #d9534f;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .popup button {
+      margin: 5px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .popup button:hover {
+      background-color: #218838;
+    }
+    .topup-popup .red-text {
+      margin-bottom: 10px;
+    }
+    .topup-popup .topup-options button {
+      display: block;
+      width: 100%;
+      margin: 5px 0;
+      background-color: #007bff;
+    }
+    .topup-popup .topup-options button:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
-<body bgcolor="#80eaff">
-    
+<body>
+
+<div id="overlay" class="overlay"></div>
+
+<div id="main-content">
+
+  <!-- top bar and users -->
+  <div class="top-bar">
+    <div class="user-box" onclick="toggleUserDetail('user1-detail')">
+      <img src="user1.jpg" alt="User 1" />
+      <div>User 1</div>
+    </div>
+    <div id="user1-detail" class="user-detail" style="left: 30px;">
+      <img src="user1.jpg" alt="User 1" />
+      <div>User 1</div>
+      <div>Total Spins: <span id="spin-count">0</span></div>
+      <div>Amount Spent: ₹<span id="amount-spent">0</span></div>
+      <div>Total Win: ₹<span id="top-total-win">0</span></div>
+      <button onclick="openTopUp()">Top Up</button>
+    </div>
+
+    <div class="user-box" onclick="toggleUserDetail('user2-detail')">
+      <img src="user2.jpg" alt="User 2" />
+      <div>User 2</div>
+    </div>
+    <div id="user2-detail" class="user-detail">
+      <img src="user2.jpg" alt="User 2" />
+      <div>User 2</div>
+      <div>(Add amount ₹0)</div>
+      <button onclick="openTopUp()">Top Up</button>
+      <div>Win amount: ₹<span id="win-total">0</span></div>
+      <button onclick="showWithdraw()">Withdraw</button>
+    </div>
+  </div>
+
+  <!-- carousel -->
+  <div class="carousel">
+    <div class="carousel-track">
+      <img src="yt1.jpg" />
+      <img src="yt2.jpg" />
+      <img src="yt3.jpg" />
+      <img src="yt4.jpg" />
+      <img src="yt5.jpg" />
+      <img src="yt1.jpg" />
+      <img src="yt2.jpg" />
+      <img src="yt3.jpg" />
+      <img src="yt4.jpg" />
+      <img src="yt5.jpg" />
+    </div>
+  </div>
+
+  <!-- spinner -->
+  <div class="spinner-section">
+    <div id="spinner" class="spinner">
+      <div id="spinner-number" class="spinner-number">0</div>
+    </div>
+    <div class="center-info">
+      <div>Chances Left: <span id="chances-left">8</span></div>
+      <div>Total Win: ₹<span id="total-win">0</span></div>
+    </div>
+    <button class="spin-btn" onclick="spin()">Spin</button>
+  </div>
+</div>
+
+<!-- popups -->
+<div id="withdraw-popup" class="popup">
+  <div class="red-text">Withdrawal amount minimum ₹50</div>
+  <button onclick="openTopUp()">Top Up</button><br><br>
+  <button onclick="closeWithdraw()">Close</button>
+</div>
+
+<div id="win-popup" class="popup">
+  <div>You won ₹<span id="win-amount">0</span>!</div>
+</div>
+
+<div id="topup-popup" class="popup topup-popup">
+  <div class="red-text">Minimum top up ₹15</div>
+  <div class="topup-options">
+    <button><a href="upi://pay?pa=biswahtml@axl&pn=BISWAJIT%20HALDER&mc=0000&mode=02&purpose=00">₹15 and free ₹10</a></button>
+    <button>₹30 and free ₹20</button>
+    <button>₹50 and free ₹50</button>
+  </div>
+  <button onclick="closeTopUp()">Close</button>
+</div>
+
+<script>
+  let spinResults = [10, 4, 6, 10, 2, 6, 8, 3];
+  let spinIndex = 0;
+  let totalWin = 0;
+  let totalSpent = 0;
+  let numberInterval = setInterval(() => {
+    document.getElementById('spinner-number').textContent = Math.floor(Math.random() * 10) + 1;
+  }, 100);
+
+  function toggleUserDetail(id) {
+    document.querySelectorAll('.user-detail').forEach(el => {
+      if (el.id !== id) el.style.display = 'none';
+    });
+    const detail = document.getElementById(id);
+    detail.style.display = detail.style.display === 'block' ? 'none' : 'block';
+    detail.style.opacity = detail.style.display === 'block' ? 1 : 0;
+  }
+
+  function showOverlay() {
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('main-content').classList.add('blurred');
+  }
+
+  function hideOverlay() {
+    document.getElementById('overlay').style.display = 'none';
+    document.getElementById('main-content').classList.remove('blurred');
+  }
+
+  function showWithdraw() {
+    document.getElementById('withdraw-popup').style.display = 'block';
+    showOverlay();
+  }
+
+  function closeWithdraw() {
+    document.getElementById('withdraw-popup').style.display = 'none';
+    hideOverlay();
+  }
+
+  function openTopUp() {
+    document.getElementById('topup-popup').style.display = 'block';
+    showOverlay();
+  }
+
+  function closeTopUp() {
+    document.getElementById('topup-popup').style.display = 'none';
+    hideOverlay();
+  }
+
+  function spin() {
+    if (spinIndex >= spinResults.length) {
+      alert("No more spins left!");
+      return;
+    }
+
+    const amount = spinResults[spinIndex];
+    totalWin += amount;
+    totalSpent += 2;
+
+    document.getElementById('top-total-win').textContent = totalWin;
+    document.getElementById('total-win').textContent = totalWin;
+    document.getElementById('win-total').textContent = totalWin;
+    document.getElementById('chances-left').textContent = spinResults.length - spinIndex - 1;
+    document.getElementById('spin-count').textContent = spinIndex + 1;
+    document.getElementById('amount-spent').textContent = totalSpent;
+
+    const deg = Math.floor(Math.random() * 360 + 720);
+    document.getElementById('spinner').style.transform = `rotate(${deg}deg)`;
+    document.getElementById('win-amount').textContent = amount;
+
+    document.getElementById('win-popup').style.display = 'block';
+    showOverlay();
+
+    setTimeout(() => {
+      document.getElementById('win-popup').style.display = 'none';
+      hideOverlay();
+    }, 2000);
+
+    spinIndex++;
+  }
+</script>
+
 </body>
-  </html>
+</html>
