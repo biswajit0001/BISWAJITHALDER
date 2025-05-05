@@ -45,7 +45,241 @@
     </div>
     <!-- 0 -->
     
-    
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Spin Game UI</title>
+  <style>
+    /* Your existing CSS styles */
+  </style>
+</head>
+<body>
+
+<div id="overlay" class="overlay"></div>
+
+<div id="main-content">
+  <!-- top bar and users -->
+  <div class="top-bar">
+    <div class="user-box" onclick="toggleUserDetail('user1-detail')">
+      <img src="user1.jpg" alt="User 1" />
+      <div>User 1</div>
+    </div>
+    <div id="user1-detail" class="user-detail" style="left: 30px;">
+      <img src="user1.jpg" alt="User 1" />
+      <div>User 1</div>
+      <div>Total Spins: <span id="spin-count">0</span></div>
+      <div>Amount Spent: ₹<span id="amount-spent">0</span></div>
+      <div>Total Win: ₹<span id="top-total-win">0</span></div>
+      <button onclick="openTopUp()">Top Up</button>
+    </div>
+
+    <div class="user-box" onclick="toggleUserDetail('user2-detail')">
+      <img src="user2.jpg" alt="User 2" />
+      <div>User 2</div>
+    </div>
+    <div id="user2-detail" class="user-detail">
+      <img src="user2.jpg" alt="User 2" />
+      <div>User 2</div>
+      <div>(Add amount ₹0)</div>
+      <button onclick="openTopUp()">Top Up</button>
+      <div>Win amount: ₹<span id="win-total">0</span></div>
+      <button onclick="showWithdraw()">Withdraw</button>
+    </div>
+  </div>
+
+  <!-- carousel -->
+  <div class="carousel">
+    <div class="carousel-track">
+      <img src="yt1.jpg" />
+      <img src="yt2.jpg" />
+      <img src="yt3.jpg" />
+      <img src="yt4.jpg" />
+      <img src="yt5.jpg" />
+      <img src="yt1.jpg" />
+      <img src="yt2.jpg" />
+      <img src="yt3.jpg" />
+      <img src="yt4.jpg" />
+      <img src="yt5.jpg" />
+    </div>
+  </div>
+
+  <!-- spinner -->
+  <div class="spinner-section">
+    <div id="spinner" class="spinner">
+      <div id="spinner-number" class="spinner-number">0</div>
+    </div>
+    <div class="center-info">
+      <div>Chances Left: <span id="chances-left">8</span></div>
+      <div>Total Win: ₹<span id="total-win">0</span></div>
+    </div>
+    <button class="spin-btn" onclick="spin()">Spin</button>
+  </div>
+</div>
+
+<!-- popups -->
+<div id="withdraw-popup" class="popup">
+  <div class="red-text">Withdrawal amount minimum ₹50</div>
+  <button onclick="openTopUp()">Top Up</button><br><br>
+  <button onclick="closeWithdraw()">Close</button>
+</div>
+
+<div id="win-popup" class="popup">
+  <div>You won ₹<span id="win-amount">0</span>!</div>
+</div>
+
+<div id="topup-popup" class="popup topup-popup">
+  <div class="red-text">Minimum top up ₹15</div>
+  <div class="topup-options">
+    <button><a href="upi://pay?pa=biswahtml@axl&pn=BISWAJIT%20HALDER&mc=0000&mode=02&purpose=00">₹15 and free ₹10</a></button>
+    <button>₹30 and free ₹20</button>
+    <button>₹50 and free ₹50</button>
+  </div>
+  <button onclick="closeTopUp()">Close</button>
+</div>
+
+<script>
+  // Initialize variables
+  let spinResults = [10, 4, 6, 10, 2, 6, 8, 3];
+  let spinIndex = 0;
+  let totalWin = 0;
+  let totalSpent = 0;
+
+  // Load user data from cookies
+  window.onload = function() {
+    const savedData = getCookie('userData');
+    if (savedData) {
+      const data = JSON.parse(savedData);
+      totalWin = data.totalWin;
+      totalSpent = data.totalSpent;
+      spinIndex = data.spinIndex;
+      updateUI();
+    }
+  };
+
+  // Update the UI with current data
+  function updateUI() {
+    document.getElementById('top-total-win').textContent = totalWin;
+    document.getElementById('total-win').textContent = totalWin;
+    document.getElementById('win-total').textContent = totalWin;
+    document.getElementById('chances-left').textContent = spinResults.length - spinIndex;
+    document.getElementById('spin-count').textContent = spinIndex;
+    document.getElementById('amount-spent').textContent = totalSpent;
+  }
+
+  // Toggle user detail visibility
+  function toggleUserDetail(id) {
+    document.querySelectorAll('.user-detail').forEach(el => {
+      if (el.id !== id) el.style.display = 'none';
+    });
+    const detail = document.getElementById(id);
+    detail.style.display = detail.style.display === 'block' ? 'none' : 'block';
+  }
+
+  // Show overlay
+  function showOverlay() {
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('main-content').classList.add('blurred');
+  }
+
+  // Hide overlay
+  function hideOverlay() {
+    document.getElementById('overlay').style.display = 'none';
+    document.getElementById('main-content').classList.remove('blurred');
+  }
+
+  // Show withdrawal popup
+  function showWithdraw() {
+    document.getElementById('withdraw-popup').style.display = 'block';
+    showOverlay();
+  }
+
+  // Close withdrawal popup
+  function closeWithdraw() {
+    document.getElementById('withdraw-popup').style.display = 'none';
+    hideOverlay();
+  }
+
+  // Open top-up popup
+  function openTopUp() {
+    document.getElementById('topup-popup').style.display = 'block';
+    showOverlay();
+  }
+
+  // Close top-up popup
+  function closeTopUp() {
+    document.getElementById('topup-popup').style.display = 'none';
+    hideOverlay();
+  }
+
+  // Save data to cookies
+  function saveToCookies() {
+    const data = {
+      totalWin: totalWin,
+      totalSpent: totalSpent,
+      spinIndex: spinIndex
+    };
+    setCookie('userData', JSON.stringify(data), 365);
+  }
+
+  // Set a cookie
+  function setCookie(cname, cvalue, exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    const expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
+
+  // Get a cookie
+  function getCookie(cname) {
+    const name = cname + "=";
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const ca = decodedCookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
+  // Spin the wheel
+  function spin() {
+    if (spinIndex >= spinResults.length) {
+      alert("No more spins left!");
+      return;
+    }
+
+    const amount = spinResults[spinIndex];
+    totalWin += amount;
+    totalSpent += 2;
+
+    updateUI();
+    saveToCookies();
+
+    const deg = Math.floor(Math.random() * 360 + 720);
+    document.getElementById('spinner').style.transform = `rotate(${deg}deg)`;
+    document.getElementById('win-amount').textContent = amount;
+
+    document.getElementById('win-popup').style.display = 'block';
+    showOverlay();
+
+    setTimeout(() => {
+      document.getElementById('win-popup').style.display = 'none';
+      hideOverlay();
+    }, 2000);
+
+    spinIndex++;
+  }
+</script>
+
+</body>
+</html>
        
     
   
