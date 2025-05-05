@@ -5,15 +5,215 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Spin Game UI</title>
   <style>
-    /* Your existing CSS styles */
+      
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f7f9fc;
+      color: #333;
+    }
+    .blurred {
+      filter: blur(5px);
+      pointer-events: none;
+      user-select: none;
+    }
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 99;
+    }
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    .user-box {
+      text-align: center;
+      cursor: pointer;
+    }
+    .user-box img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+    }
+    .user-detail {
+      display: none;
+      position: absolute;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 12px;
+      top: 70px;
+      right: 30px;
+      width: 250px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+      font-size: 14px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .user-detail img {
+      width: 60px;
+      border-radius: 50%;
+      display: block;
+      margin: 0 auto 10px;
+    }
+    .user-detail div {
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .user-detail button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 6px 16px;
+      font-size: 13px;
+      border-radius: 20px;
+      cursor: pointer;
+      margin-top: 5px;
+      transition: background 0.3s ease;
+    }
+    .user-detail button:hover {
+      background-color: #0056b3;
+    }
+    .carousel {
+      display: flex;
+      overflow: hidden;
+      background: #e0e0e0;
+      height: 100px;
+      position: relative;
+    }
+    .carousel::before,
+    .carousel::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 50px;
+      background: linear-gradient(to right, #f7f9fc, transparent);
+      z-index: 1;
+    }
+    .carousel::after {
+      right: 0;
+      transform: rotate(180deg);
+    }
+    .carousel-track {
+      display: flex;
+      animation: slideRightToLeft 20s linear infinite;
+    }
+    .carousel img {
+      width: 160px;
+      height: 100px;
+      margin-right: 10px;
+      object-fit: cover;
+    }
+    @keyframes slideRightToLeft {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    .spinner-section {
+      text-align: center;
+      padding: 30px 10px;
+    }
+    .spinner {
+      width: 200px;
+      height: 200px;
+      border: 12px solid #e0e0e0;
+      border-top-color: #4CAF50;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      position: relative;
+      transition: transform 3s ease-out;
+    }
+    .spinner-number {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 32px;
+      font-weight: bold;
+      color: #4CAF50;
+    }
+    .spin-btn {
+      padding: 10px 30px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .spin-btn:hover {
+      background-color: #45a049;
+    }
+    .center-info {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+    }
+    .popup {
+      color:#00c403;
+      display: none;
+      position: fixed;
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 100;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      width: 300px;
+      text-align: center;
+      font-size: 15px;
+      font-weight: bolder;
+    }
+    .popup .red-text {
+      color: #d9534f;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .popup button {
+      margin: 5px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .popup button:hover {
+      background-color: #218838;
+    }
+    .topup-popup .red-text {
+      margin-bottom: 10px;
+    }
+    .topup-popup .topup-options button {
+      display: block;
+      width: 100%;
+      margin: 5px 0;
+      background-color: #007bff;
+    }
+    .topup-popup .topup-options button:hover {
+      background-color: #0056b3;
+    }
   </style>
 </head>
-<body>
+<body onload="loadGameData()">
 
 <div id="overlay" class="overlay"></div>
 
 <div id="main-content">
-  <!-- top bar and users -->
+
   <div class="top-bar">
     <div class="user-box" onclick="toggleUserDetail('user1-detail')">
       <img src="user1.jpg" alt="User 1" />
@@ -42,7 +242,6 @@
     </div>
   </div>
 
-  <!-- carousel -->
   <div class="carousel">
     <div class="carousel-track">
       <img src="yt1.jpg" />
@@ -58,7 +257,6 @@
     </div>
   </div>
 
-  <!-- spinner -->
   <div class="spinner-section">
     <div id="spinner" class="spinner">
       <div id="spinner-number" class="spinner-number">0</div>
@@ -71,7 +269,6 @@
   </div>
 </div>
 
-<!-- popups -->
 <div id="withdraw-popup" class="popup">
   <div class="red-text">Withdrawal amount minimum ₹50</div>
   <button onclick="openTopUp()">Top Up</button><br><br>
@@ -93,115 +290,118 @@
 </div>
 
 <script>
-  // Initialize variables
-  let spinResults = [10, 4, 6, 10, 2, 6, 8, 3];
+   let spinResults = [10, 4, 6, 10, 2, 6, 8, 3];
   let spinIndex = 0;
   let totalWin = 0;
   let totalSpent = 0;
+  let chancesLeft = spinResults.length;
+  let spinCount = 0;
+  let numberInterval = setInterval(() => {
+    document.getElementById('spinner-number').textContent = Math.floor(Math.random() * 10) + 1;
+  }, 100);
 
-  // Load user data from cookies
-  window.onload = function() {
-    const savedData = getCookie('userData');
-    if (savedData) {
-      const data = JSON.parse(savedData);
-      totalWin = data.totalWin;
-      totalSpent = data.totalSpent;
-      spinIndex = data.spinIndex;
-      updateUI();
-    }
-  };
-
-  // Update the UI with current data
-  function updateUI() {
-    document.getElementById('top-total-win').textContent = totalWin;
-    document.getElementById('total-win').textContent = totalWin;
-    document.getElementById('win-total').textContent = totalWin;
-    document.getElementById('chances-left').textContent = spinResults.length - spinIndex;
-    document.getElementById('spin-count').textContent = spinIndex;
-    document.getElementById('amount-spent').textContent = totalSpent;
+  function setCookie(name, value, days) {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = "expires=" + date.toUTCString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
   }
 
-  // Toggle user detail visibility
+  function getCookie(name) {
+    const cookieName = name + "=";
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const ca = decodedCookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) === ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(cookieName) === 0) {
+        return c.substring(cookieName.length, c.length);
+      }
+    }
+    return "";
+  }
+
+  function saveGameData() {
+    setCookie('spinIndex', spinIndex, 30);
+    setCookie('totalWin', totalWin, 30);
+    setCookie('totalSpent', totalSpent, 30);
+    setCookie('chancesLeft', chancesLeft, 30);
+    setCookie('spinCount', spinCount, 30);
+  }
+
+  function loadGameData() {
+    const savedSpinIndex = getCookie('spinIndex');
+    const savedTotalWin = getCookie('totalWin');
+    const savedTotalSpent = getCookie('totalSpent');
+    const savedChancesLeft = getCookie('chancesLeft');
+    const savedSpinCount = getCookie('spinCount');
+
+    if (savedSpinIndex !== "") {
+      spinIndex = parseInt(savedSpinIndex);
+    }
+    if (savedTotalWin !== "") {
+      totalWin = parseInt(savedTotalWin);
+      document.getElementById('top-total-win').textContent = totalWin;
+      document.getElementById('total-win').textContent = totalWin;
+      document.getElementById('win-total').textContent = totalWin;
+    }
+    if (savedTotalSpent !== "") {
+      totalSpent = parseInt(savedTotalSpent);
+      document.getElementById('amount-spent').textContent = totalSpent;
+    }
+    if (savedChancesLeft !== "") {
+      chancesLeft = parseInt(savedChancesLeft);
+      document.getElementById('chances-left').textContent = chancesLeft;
+    } else {
+      document.getElementById('chances-left').textContent = spinResults.length;
+    }
+    if (savedSpinCount !== "") {
+      spinCount = parseInt(savedSpinCount);
+      document.getElementById('spin-count').textContent = spinCount;
+    }
+  }
+
   function toggleUserDetail(id) {
     document.querySelectorAll('.user-detail').forEach(el => {
       if (el.id !== id) el.style.display = 'none';
     });
     const detail = document.getElementById(id);
     detail.style.display = detail.style.display === 'block' ? 'none' : 'block';
+    detail.style.opacity = detail.style.display === 'block' ? 1 : 0;
   }
 
-  // Show overlay
   function showOverlay() {
     document.getElementById('overlay').style.display = 'block';
     document.getElementById('main-content').classList.add('blurred');
   }
 
-  // Hide overlay
   function hideOverlay() {
     document.getElementById('overlay').style.display = 'none';
     document.getElementById('main-content').classList.remove('blurred');
   }
 
-  // Show withdrawal popup
   function showWithdraw() {
     document.getElementById('withdraw-popup').style.display = 'block';
     showOverlay();
   }
 
-  // Close withdrawal popup
   function closeWithdraw() {
     document.getElementById('withdraw-popup').style.display = 'none';
     hideOverlay();
   }
 
-  // Open top-up popup
   function openTopUp() {
     document.getElementById('topup-popup').style.display = 'block';
     showOverlay();
   }
 
-  // Close top-up popup
   function closeTopUp() {
     document.getElementById('topup-popup').style.display = 'none';
     hideOverlay();
   }
 
-  // Save data to cookies
-  function saveToCookies() {
-    const data = {
-      totalWin: totalWin,
-      totalSpent: totalSpent,
-      spinIndex: spinIndex
-    };
-    setCookie('userData', JSON.stringify(data), 365);
-  }
-
-  // Set a cookie
-  function setCookie(cname, cvalue, exdays) {
-    const d = new Date();
-    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-    const expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-  }
-
-  // Get a cookie
-  function getCookie(cname) {
-    const name = cname + "=";
-    const decodedCookie = decodeURIComponent(document.cookie);
-    const ca = decodedCookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-      let c = ca[i];
-      while (c.charAt(0) == ' ') {
-        c = c.substring(1);
-      }
-      if (c.indexOf(name) == 0) {
-        return c.substring(name.length, c.length);
-      }
-    }
-    return "";
-  }
-
-  // Spin the wheel
   function spin() {
     if (spinIndex >= spinResults.length) {
       alert("No more spins left!");
@@ -211,9 +411,15 @@
     const amount = spinResults[spinIndex];
     totalWin += amount;
     totalSpent += 2;
+    chancesLeft--;
+    spinCount++;
 
-    updateUI();
-    saveToCookies();
+    document.getElementById('top-total-win').textContent = totalWin;
+    document.getElementById('total-win').textContent = totalWin;
+    document.getElementById('win-total').textContent = totalWin;
+    document.getElementById('chances-left').textContent = chancesLeft;
+    document.getElementById('spin-count').textContent = spinCount;
+    document.getElementById('amount-spent').textContent = totalSpent;
 
     const deg = Math.floor(Math.random() * 360 + 720);
     document.getElementById('spinner').style.transform = `rotate(${deg}deg)`;
@@ -225,9 +431,11 @@
     setTimeout(() => {
       document.getElementById('win-popup').style.display = 'none';
       hideOverlay();
+      saveGameData(); // Save the game data after the spin
     }, 2000);
 
     spinIndex++;
+    saveGameData(); // Save the game data after initiating the spin
   }
 </script>
 
