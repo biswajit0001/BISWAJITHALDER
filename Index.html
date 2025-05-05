@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Spin Game UI</title>
   <style>
-      
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -50,7 +49,6 @@
       padding: 20px;
       border-radius: 12px;
       top: 70px;
-      right: 30px;
       width: 250px;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
       z-index: 10;
@@ -206,36 +204,79 @@
     .topup-popup .topup-options button:hover {
       background-color: #0056b3;
     }
+
+    .game-title {
+      text-align: center;
+      font-size: 22px;
+      font-weight: bolder;
+      color: #ca7533;
+      text-shadow: 1px 1px 2px #a3a3a3,1px 1px 2px #FFA3A3A3,1px 1px 2px #ff9d2b;
+      
+      
+    }
+    
+    .message-container {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: #fff;
+      overflow: hidden;
+      height: 30px;
+      text-align: center;
+      z-index: 99;
+      border-top: 1px solid #ccc;
+    }
+    .message {
+      position: absolute;
+      width: 100%;
+      font-size: 14px;
+      font-weight: bold;
+      color: #007bff;
+      animation: slideUp 0.5s ease-in;
+    }
+    @keyframes slideUp {
+      from {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0%);
+        opacity: 1;
+      }
+    }
   </style>
 </head>
-<body>
+<body onload="loadGameData()">
 
 <div id="overlay" class="overlay"></div>
 
 <div id="main-content">
 
-  <!-- top bar and users -->
   <div class="top-bar">
     <div class="user-box" onclick="toggleUserDetail('user1-detail')">
       <img src="user1.jpg" alt="User 1" />
-      <div>User 1</div>
+      <div>User 00468</div>
     </div>
+
+    <div class="game-title">SPIN TO WIN</div>
+
+    <div class="user-box" onclick="toggleUserDetail('user2-detail')">
+      <img src="user2.jpg" alt="User 2" />
+      <div>WITHDRAW</div>
+    </div>
+
     <div id="user1-detail" class="user-detail" style="left: 30px;">
       <img src="user1.jpg" alt="User 1" />
-      <div>User 1</div>
+      <div>User 00468</div>
       <div>Total Spins: <span id="spin-count">0</span></div>
       <div>Amount Spent: ₹<span id="amount-spent">0</span></div>
       <div>Total Win: ₹<span id="top-total-win">0</span></div>
       <button onclick="openTopUp()">Top Up</button>
     </div>
 
-    <div class="user-box" onclick="toggleUserDetail('user2-detail')">
+    <div id="user2-detail" class="user-detail" style="right: 30px;">
       <img src="user2.jpg" alt="User 2" />
-      <div>User 2</div>
-    </div>
-    <div id="user2-detail" class="user-detail">
-      <img src="user2.jpg" alt="User 2" />
-      <div>User 2</div>
+      <div>CASH</div>
       <div>(Add amount ₹0)</div>
       <button onclick="openTopUp()">Top Up</button>
       <div>Win amount: ₹<span id="win-total">0</span></div>
@@ -243,7 +284,6 @@
     </div>
   </div>
 
-  <!-- carousel -->
   <div class="carousel">
     <div class="carousel-track">
       <img src="yt1.jpg" />
@@ -259,7 +299,6 @@
     </div>
   </div>
 
-  <!-- spinner -->
   <div class="spinner-section">
     <div id="spinner" class="spinner">
       <div id="spinner-number" class="spinner-number">0</div>
@@ -272,7 +311,6 @@
   </div>
 </div>
 
-<!-- popups -->
 <div id="withdraw-popup" class="popup">
   <div class="red-text">Withdrawal amount minimum ₹50</div>
   <button onclick="openTopUp()">Top Up</button><br><br>
@@ -292,15 +330,86 @@
   </div>
   <button onclick="closeTopUp()">Close</button>
 </div>
+<!-- Existing game layout -->
+<!-- ...your entire previous HTML remains here... -->
+
+<!-- Bottom Message Display -->
+<div class="message-container">
+  <div id="message" class="message">Welcome to Spin Game!</div>
+</div>
 
 <script>
   let spinResults = [10, 4, 6, 10, 2, 6, 8, 3];
   let spinIndex = 0;
   let totalWin = 0;
   let totalSpent = 0;
+  let chancesLeft = spinResults.length;
+  let spinCount = 0;
+
   let numberInterval = setInterval(() => {
     document.getElementById('spinner-number').textContent = Math.floor(Math.random() * 10) + 1;
   }, 100);
+
+  function setCookie(name, value, days) {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = "expires=" + date.toUTCString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+  }
+
+  function getCookie(name) {
+    const cookieName = name + "=";
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const ca = decodedCookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) === ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(cookieName) === 0) {
+        return c.substring(cookieName.length, c.length);
+      }
+    }
+    return "";
+  }
+
+  function saveGameData() {
+    setCookie('spinIndex', spinIndex, 30);
+    setCookie('totalWin', totalWin, 30);
+    setCookie('totalSpent', totalSpent, 30);
+    setCookie('chancesLeft', chancesLeft, 30);
+    setCookie('spinCount', spinCount, 30);
+  }
+
+  function loadGameData() {
+    const savedSpinIndex = getCookie('spinIndex');
+    const savedTotalWin = getCookie('totalWin');
+    const savedTotalSpent = getCookie('totalSpent');
+    const savedChancesLeft = getCookie('chancesLeft');
+    const savedSpinCount = getCookie('spinCount');
+
+    if (savedSpinIndex !== "") spinIndex = parseInt(savedSpinIndex);
+    if (savedTotalWin !== "") {
+      totalWin = parseInt(savedTotalWin);
+      document.getElementById('top-total-win').textContent = totalWin;
+      document.getElementById('total-win').textContent = totalWin;
+      document.getElementById('win-total').textContent = totalWin;
+    }
+    if (savedTotalSpent !== "") {
+      totalSpent = parseInt(savedTotalSpent);
+      document.getElementById('amount-spent').textContent = totalSpent;
+    }
+    if (savedChancesLeft !== "") {
+      chancesLeft = parseInt(savedChancesLeft);
+      document.getElementById('chances-left').textContent = chancesLeft;
+    } else {
+      document.getElementById('chances-left').textContent = spinResults.length;
+    }
+    if (savedSpinCount !== "") {
+      spinCount = parseInt(savedSpinCount);
+      document.getElementById('spin-count').textContent = spinCount;
+    }
+  }
 
   function toggleUserDetail(id) {
     document.querySelectorAll('.user-detail').forEach(el => {
@@ -350,12 +459,14 @@
     const amount = spinResults[spinIndex];
     totalWin += amount;
     totalSpent += 2;
+    chancesLeft--;
+    spinCount++;
 
     document.getElementById('top-total-win').textContent = totalWin;
     document.getElementById('total-win').textContent = totalWin;
     document.getElementById('win-total').textContent = totalWin;
-    document.getElementById('chances-left').textContent = spinResults.length - spinIndex - 1;
-    document.getElementById('spin-count').textContent = spinIndex + 1;
+    document.getElementById('chances-left').textContent = chancesLeft;
+    document.getElementById('spin-count').textContent = spinCount;
     document.getElementById('amount-spent').textContent = totalSpent;
 
     const deg = Math.floor(Math.random() * 360 + 720);
@@ -368,10 +479,37 @@
     setTimeout(() => {
       document.getElementById('win-popup').style.display = 'none';
       hideOverlay();
+      saveGameData();
     }, 2000);
 
     spinIndex++;
+    saveGameData();    
+  }  
+
+
+  // Add 20 messages
+  const messages = [
+    "User 00468 won ₹10!", "Spin to win now!", "Free ₹10 with ₹15 top up!",
+    "Withdraw your winnings anytime!", "You still have chances left!", 
+    "Big win coming!", "User 10123 won ₹8!", "Try your luck again!",
+    "Minimum top up ₹15!", "₹50 top up gives ₹50 free!", 
+    "User 54523 won ₹6!", "Only 2₹ per spin!", "Enjoy your rewards!", 
+    "Top up now to continue!", "Your spin can change the game!", 
+    "You are doing great!", "Lucky day for User 00468!", 
+    "Don't miss your chance!", "User 00468 just hit ₹10!", "Stay tuned for surprises!"
+  ];
+  let msgIndex = 0;
+
+  function showNextMessage() {
+    const msgEl = document.getElementById('message');
+    msgEl.style.animation = 'none';
+    msgEl.offsetHeight; // Force reflow
+    msgEl.textContent = messages[msgIndex];
+    msgEl.style.animation = 'slideUp 0.5s ease-in';
+    msgIndex = (msgIndex + 1) % messages.length;
   }
+
+  setInterval(showNextMessage, 500);
 </script>
 
 </body>
