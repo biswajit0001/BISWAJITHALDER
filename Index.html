@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Spin Game UI</title>
+  <title>Spin Game to win 1 crore</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -246,6 +246,18 @@
         opacity: 1;
       }
     }
+    .whatsapp-share {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000;
+  }
+
+  .whatsapp-share img {
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+  }
   </style>
 </head>
 <body onload="loadGameData()">
@@ -338,7 +350,10 @@
 <div class="message-container">
   <div id="message" class="message">Welcome to Spin Game!</div>
 </div>
-
+<a href="https://wa.me/?text=Check%20this%20Free%208%20Spin%20Win%201%20crore%20https://win1000.netlify.app/" target="_blank" class="whatsapp-share">
+  <img src="https://img.icons8.com/color/48/000000/whatsapp--v1.png" alt="Share on WhatsApp">
+</a>
+  
 <script>
   let spinResults = [10, 4, 6, 10, 2, 6, 8, 3];
   let spinIndex = 0;
