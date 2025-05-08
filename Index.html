@@ -83,7 +83,7 @@
     .carousel {
       display: flex;
       overflow: hidden;
-      background: #e0e0e0;
+      background: #a0ca87;
       height: 100px;
       position: relative;
     }
@@ -102,8 +102,9 @@
       transform: rotate(180deg);
     }
     .carousel-track {
+    
       display: flex;
-      animation: slideRightToLeft 20s linear infinite;
+      animation: slideRightToLeft 10s linear infinite;
     }
     .carousel img {
       width: 160px;
@@ -112,8 +113,8 @@
       object-fit: cover;
     }
     @keyframes slideRightToLeft {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
+      0% { transform: translateX(1%); }
+      100% { transform: translateX(-75%); }
     }
     .spinner-section {
       text-align: center;
@@ -225,6 +226,7 @@
       text-align: center;
       z-index: 99;
       border-top: 1px solid #ccc;
+      background-color:#65ca78;
     }
     .message {
       position: absolute;
@@ -324,9 +326,8 @@
 <div id="topup-popup" class="popup topup-popup">
   <div class="red-text">Minimum top up ₹15</div>
   <div class="topup-options">
-    <button><a href="upi://pay?pa=biswahtml@axl&pn=BISWAJIT%20HALDER&mc=0000&mode=02&purpose=00">₹15 and free ₹10</a></button>
-    <button>₹30 and free ₹20</button>
-    <button>₹50 and free ₹50</button>
+    <button><a href="QR.jpg"><b>TOP UP</b></a></button>
+   
   </div>
   <button onclick="closeTopUp()">Close</button>
 </div>
@@ -509,7 +510,7 @@
     msgIndex = (msgIndex + 1) % messages.length;
   }
 
-  setInterval(showNextMessage, 500);
+  setInterval(showNextMessage, 800);
 </script>
 
 </body>
